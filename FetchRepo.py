@@ -24,8 +24,8 @@ def send_message(languages, since, new_repos):
            # print(description.strip())
 
             if description.strip() and comprehend.detect_language(description) == 'en':
-                if len(description) > 50:
-                    description = description[:50] + "..."
+                if len(description) > 150:
+                    description = description[:150] + "..."
                 msg = "Name : " + new_repo['name'] + "\nURL : " + new_repo['url'] + "\nLanguage : " + new_repo[
                     'language'] + "\nDescription: " + description + "\n\n"
                 reply = reply + msg
