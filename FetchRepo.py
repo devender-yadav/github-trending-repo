@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 import requests
 from aws_utils import dynamodb_util as dynamodb, sns_util as sns, comprehend_util as comprehend
 import commons
@@ -16,12 +18,12 @@ def send_message(languages, since, new_repos):
     if len(new_repos) == 0:
         print("No new delta!!! " + str(datetime.now()))
     else:
-        reply = 'Greetings! \n\n Here are new trending ' + since + ' repositories for ' + commons.trim_brackets(
+        reply = '🤝 Greetings!\n\n Here are new trending ' + since + ' repositories for ' + commons.trim_brackets(
             languages) + ' language(s) :\n\n'
 
         for new_repo in new_repos:
             description = new_repo['description']
-           # print(description.strip())
+            print(description.strip())
 
             if description.strip() and comprehend.detect_language(description) == 'en':
                 if len(description) > 150:
@@ -30,7 +32,7 @@ def send_message(languages, since, new_repos):
                     'language'] + "\nDescription: " + description + "\n\n"
                 reply = reply + msg
 
-        reply = reply + "\nLove,\nDBot"
+        reply = reply + "\nLove,\nDBot 🤖"
         sns.send_notification(reply)
 
 
@@ -75,7 +77,7 @@ def find_new_trending_repo(languages, since):
                 print(response['url'])
                 dynamodb.insert_data(data)
                 new_repos.append(data)
-   # print("New Trending repositories - " + str(new_repos))
+    print("New Trending repositories - " + str(new_repos))
     send_message(languages, since, new_repos)
 
 
